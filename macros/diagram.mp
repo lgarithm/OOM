@@ -4,13 +4,17 @@ def def_diagram(suffix g) =
     numeric g.node.size;
     g.grid.size := 12 mm;
     g.node.size := 5 mm;
+
     g.arr.scale := 1;
     g.bbox.scale := 1;
+
+    pair g.pos;
+    g.pos := origin;
 
     numeric g.n;
     g.n := 0;
     pair g[].pos;
-    picture g[].lbl;
+    picture g[].tex;
     string g[].name;
     path g[].bbox;
 
@@ -21,7 +25,12 @@ def def_diagram(suffix g) =
 enddef;
 
 def new_node(suffix g) =
-    incr(g.n)
+    begingroup
+    idx := incr(g.n);
+    g[idx].tex := btex etex;
+    g[idx].pos := g.pos;
+    idx
+    endgroup;
 enddef;
 
 def new_tex_node(suffix g) (text lbl) =
@@ -34,7 +43,7 @@ enddef;
 
 def new_node_with(suffix g) (expr b) =
     begingroup
-    idx := incr(g.n);
+    idx := new_node(g);
     g[idx].bbox = b;
     idx
     endgroup;
@@ -61,16 +70,16 @@ def get_pos(suffix g) (expr i) =
 enddef;
 
 % setters
-def set_pos(suffix g) (expr i, p) =
-    g[i].pos = p;
+def diag_set_pos(suffix g) (expr p) =
+  g.pos := p;
 enddef;
 
-def reset_pos(suffix g) (expr i, p) =
+def set_pos(suffix g) (expr i, p) =
     g[i].pos := p;
 enddef;
 
 def set_relative_pos(suffix g) (expr i, j, p) =
-    g[i].pos = g[j].pos + p;
+    g[i].pos := g[j].pos + p;
 enddef;
 
 def set_arr_scale(suffix g) (expr bs) =
@@ -108,7 +117,7 @@ def draw_edge_with(suffix g) (expr p, pbbox, q, qbbox) =
 enddef;
 
 def draw_diagram_node(suffix g) (expr i) =
-    draw_node(g, g[i].bbox, g[i].pos, g[i].lbl);
+    draw_node(g, g[i].bbox, g[i].pos, g[i].tex);
 enddef;
 
 def draw_diagram_nodes(suffix g) =
