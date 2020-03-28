@@ -1,5 +1,6 @@
 input macros/begin;
 
-input figs/exmp1.mp
+input figs/grid.mp
+input figs/rcbox.mp
 
 input macros/end;

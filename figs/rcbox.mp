@@ -1,0 +1,14 @@
+input macros/rcbox;
+input macros/grid;
+
+beginfig(80);
+    gn := 3;
+    gs := 10mm;
+
+    def_grid(gd);
+    set_grid_scale(gd, gs);
+    set_grid_number(gd, gn);
+    draw_grid(gd);
+
+    draw_rcbox(origin, gs, gn, 1/3);
+endfig;

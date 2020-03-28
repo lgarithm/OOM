@@ -5,8 +5,8 @@ ubox := unitsquare shifted (-.5, -.5);
 def def_diagram(suffix g) =
     numeric g.grid.size;
     numeric g.node.size;
-    g.node.size := 5 mm;
     g.grid.size := 12 mm;
+    g.node.size := 5 mm;
     g.arr.scale := 1;
     g.bbox.scale := 1;
 

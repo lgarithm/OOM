@@ -10,14 +10,18 @@ def def_grid(suffix g) =
     numeric g.n; % witdh
 
     set_grid_scale(g, 12mm);
-    set_grid_number(g, 2, 2);
+    set_grid_number(g, 2);
 enddef;
 
 def set_grid_pos(suffix g) (expr o) =
     g.pos := o;
 enddef;
 
-def set_grid_number(suffix g) (expr u, v) =
+def set_grid_number(suffix g) (expr u) =
+    set_grid_numbers(g, u, u);
+enddef;
+
+def set_grid_numbers(suffix g) (expr u, v) =
     g.m := u;
     g.n := v;
 enddef;
