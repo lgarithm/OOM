@@ -8,3 +8,6 @@ verbatimtex
 etex
 
 outputtemplate := "%j-%c.mps";
+
+boolean oom.debug;
+oom.debug := false;

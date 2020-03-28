@@ -18,7 +18,12 @@ def draw_rcbox(expr o) (expr size) (expr scale, rr) =
         cycle) scaled .5;
     draw rcb scaled scale scaled size shifted (o scaled size);
 
-    for i := 0 upto 7:
-        drawdot p[i] scaled .5 scale scaled size shifted (o scaled size) withpen pencircle scaled 3pt;
-    endfor;
+    if oom.debug:
+        for i := 0 upto 7:
+            drawdot p[i] scaled .5
+                scale scaled size
+                shifted (o scaled size)
+                withpen pencircle scaled 3pt;
+        endfor;
+    fi;
 enddef;
