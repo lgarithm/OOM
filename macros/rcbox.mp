@@ -1,4 +1,5 @@
-def draw_rcbox(expr o) (expr size) (expr scale, rr) =
+def def_rcbox(expr rr) =
+    begingroup
     pair p[];
     p[0] := left + (1 - rr) * up;
     p[1] := (1 - rr) * left + up;
@@ -9,13 +10,19 @@ def draw_rcbox(expr o) (expr size) (expr scale, rr) =
     p[6] := (1 - rr) * left + down;
     p[7] := left + (1 - rr) * down;
 
-    path rcb;
-    rcb := (
+    (
         p[0] .. rr [left + up, dir(135)] .. p[1] --
         p[2] .. rr [right + up, dir(45)] .. p[3] --
         p[4] .. rr [right + down, dir(-45)] .. p[5] --
         p[6] .. rr [left + down, dir(-135)] .. p[7] --
-        cycle) scaled .5;
+    cycle) scaled .5
+    endgroup;
+enddef;
+
+def draw_rcbox(expr o) (expr size) (expr scale, rr) =
+    path rcb;
+    rcb := def_rcbox(rr);
+
     draw rcb scaled scale scaled size shifted (o scaled size);
 
     if oom.debug:
