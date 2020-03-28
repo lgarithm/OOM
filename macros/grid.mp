@@ -1,6 +1,6 @@
 def def_grid(suffix g) =
     pair g.pos;
-    g.pos := origin;
+    set_grid_pos(g, origin);
 
     color g.c;
     g.c := green;
@@ -9,8 +9,8 @@ def def_grid(suffix g) =
     numeric g.m; % height
     numeric g.n; % witdh
 
-    set_scale(g, 12mm);
-    set_grid_number(g, 1, 1);
+    set_grid_scale(g, 12mm);
+    set_grid_number(g, 2, 2);
 enddef;
 
 def set_grid_pos(suffix g) (expr o) =
@@ -22,7 +22,7 @@ def set_grid_number(suffix g) (expr u, v) =
     g.n := v;
 enddef;
 
-def set_scale(suffix g) (expr sz) =
+def set_grid_scale(suffix g) (expr sz) =
     g.grid.scale := sz;
 enddef;
 
