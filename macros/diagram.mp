@@ -1,6 +1,3 @@
-path ubox;
-ubox := unitsquare shifted (-.5, -.5);
-
 % constructors
 def def_diagram(suffix g) =
     numeric g.grid.size;
