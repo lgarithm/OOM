@@ -3,7 +3,7 @@ def def_grid(suffix g) =
     set_grid_pos(g, origin);
 
     color g.c;
-    g.c := green;
+    set_grid_color(g, green);
 
     numeric g.grid.scale;
     numeric g.m; % height
@@ -28,6 +28,17 @@ enddef;
 
 def set_grid_scale(suffix g) (expr sz) =
     g.grid.scale := sz;
+enddef;
+
+def set_grid_color(suffix g) (expr clr) =
+    g.c := clr;
+enddef;
+
+def grid_dot(suffix g) (expr i, j) =
+    begingroup
+    t := identity shifted (-.5 g.n, -.5 g.m) shifted g.pos scaled g.grid.scale;
+    (i, j) transformed t
+    endgroup
 enddef;
 
 def draw_grid(suffix g) =
