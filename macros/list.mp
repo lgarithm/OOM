@@ -13,3 +13,10 @@ def append_to_list(suffix ls, ap) (text f) =
     add_to_list(ls, f(ap[i]));
   endfor;
 enddef;
+
+def fill_list(suffix ls) (expr l, x) =
+  ls.n := 0;
+  for i := 1 upto l:
+    add_to_list(ls, x);
+  endfor;
+enddef;
