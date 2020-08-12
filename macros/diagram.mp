@@ -22,6 +22,7 @@ def def_diagram(suffix g) =
     g.m = 0;
     numeric g[]u, g[]v;
     numeric g[]s;  % the style
+    boolean g[]d;  % is directed, default to true
 enddef;
 
 def new_node(suffix g) =
@@ -29,6 +30,7 @@ def new_node(suffix g) =
     idx := incr(g.n);
     g[idx].tex := btex etex;
     g[idx].pos := g.pos;
+    %g[idx].bbox := fullcircle;
     idx
     endgroup;
 enddef;
@@ -37,6 +39,8 @@ def new_tex_node(suffix g) (text lbl) =
     begingroup
     idx := incr(g.n);
     g[idx].name = lbl;
+    %g[idx].pos := g.pos;
+    %g[idx].bbox := fullcircle;
     idx
     endgroup;
 enddef;
@@ -58,10 +62,25 @@ def new_op_node(suffix g) =
 enddef;
 
 def add_edge(suffix g) (expr i, j) =
+    begingroup
     idx := incr(g.m);
     g[idx]u = i;
     g[idx]v = j;
     g[idx]s = 0;
+    g[idx]d = true;
+    % idx
+    endgroup;
+enddef;
+
+def add_undirected_edge(suffix g) (expr i, j) =
+    begingroup
+    idx := incr(g.m);
+    g[idx]u = i;
+    g[idx]v = j;
+    g[idx]s = 0;
+    g[idx]d = false;
+    % idx
+    endgroup;
 enddef;
 
 % getters
@@ -107,13 +126,18 @@ def draw_node(suffix g) (expr b, p, m) =
     label(m, pos);
 enddef;
 
-def draw_edge_with(suffix g) (expr p, pbbox, q, qbbox) =
+def draw_edge_with(suffix g) (expr p, pbbox, q, qbbox) (expr d) =
     pair start;
     pair stop;
     start := ((p -- q) scaled g.grid.size) intersectionpoint (pbbox scaled g.node.size shifted (p scaled g.grid.size));
     stop := ((q -- p) scaled g.grid.size) intersectionpoint (qbbox scaled g.node.size shifted (q scaled g.grid.size));
-    drawarrow (start -- stop)
-        withpen pencircle scaled g.arr.scale;
+    if d:
+        drawarrow (start -- stop)
+            withpen pencircle scaled g.arr.scale;
+    else:
+        draw (start -- stop)
+            withpen pencircle scaled g.arr.scale;
+    fi;
 enddef;
 
 def draw_diagram_node(suffix g) (expr i) =
@@ -126,13 +150,13 @@ def draw_diagram_nodes(suffix g) =
     endfor;
 enddef;
 
-def draw_diagram_edge(suffix g) (expr i, j) =
-    draw_edge_with(g, g[i].pos, g[i].bbox, g[j].pos, g[j].bbox);
+def draw_diagram_edge(suffix g) (expr i, j) (expr d) =
+    draw_edge_with(g, g[i].pos, g[i].bbox, g[j].pos, g[j].bbox, d);
 enddef;
 
 def draw_diagram_edges(suffix g) =
     for i := 1 upto g.m:
-        draw_diagram_edge(g, g[i]u, g[i]v);
+        draw_diagram_edge(g, g[i]u, g[i]v, g[i]d);
     endfor;
 enddef;
 
