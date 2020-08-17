@@ -41,6 +41,13 @@ def grid_dot(suffix g) (expr i, j) =
     endgroup
 enddef;
 
+def grid_cell(suffix g) (expr i, j) =
+    begingroup
+    t := identity shifted (-.5 g.n, -.5 g.m) shifted g.pos scaled g.grid.scale;
+    unitsquare shifted (i,j) transformed t
+    endgroup
+enddef;
+
 def draw_grid(suffix g) =
     transform t;
     t := identity shifted (-.5 g.n, -.5 g.m) shifted g.pos scaled g.grid.scale;
