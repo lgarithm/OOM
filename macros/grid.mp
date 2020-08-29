@@ -41,10 +41,19 @@ def grid_dot(suffix g) (expr i, j) =
     endgroup
 enddef;
 
+% return the center of a grid cell as pair
+def grid_center(suffix g) (expr i, j) =
+    begingroup
+    t := identity shifted (-.5 g.n, -.5 g.m) shifted g.pos scaled g.grid.scale;
+    (.5, .5) shifted (i, j) transformed t
+    endgroup
+enddef;
+
+% return the border path of the grid cell
 def grid_cell(suffix g) (expr i, j) =
     begingroup
     t := identity shifted (-.5 g.n, -.5 g.m) shifted g.pos scaled g.grid.scale;
-    unitsquare shifted (i,j) transformed t
+    unitsquare shifted (i, j) transformed t
     endgroup
 enddef;
 
