@@ -4,6 +4,12 @@ def def_list(suffix ls) (text type) =
   type ls[];
 enddef;
 
+def list_len(suffix ls) =
+  ls.n
+enddef;
+
+% todo rename the following APIs to conform the form list_xxx
+
 def add_to_list(suffix ls) (expr e) =
   ls[incr(ls.n)] := e;
 enddef;
