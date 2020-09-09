@@ -126,6 +126,12 @@ def draw_node(suffix g) (expr b, p, m) =
     label(m, pos);
 enddef;
 
+def diag_node_bbox(suffix g) (expr i) =
+    begingroup
+    g[i].bbox scaled g.node.size shifted (g[i].pos scaled g.grid.size)
+    endgroup
+enddef;
+
 def draw_edge_with(suffix g) (expr p, pbbox, q, qbbox) (expr d) =
     pair start;
     pair stop;
