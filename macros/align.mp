@@ -13,6 +13,11 @@ def ml_to_origin(expr p) =
     p shifted (-.5 [llcorner bbox(p), ulcorner bbox(p)])
 enddef;
 
+% move middle right of picture p to origin
+def mr_to_origin(expr p) =
+    p shifted (-.5 [lrcorner bbox(p), urcorner bbox(p)])
+enddef;
+
 def draw_lefg_right(expr l, r) =
     wl := arclength(llcorner bbox(l) -- lrcorner bbox(l));
     wr := arclength(llcorner bbox(r) -- lrcorner bbox(r));
