@@ -101,6 +101,10 @@ def set_relative_pos(suffix g) (expr i, j, p) =
     g[i].pos := g[j].pos + p;
 enddef;
 
+def set_tex(suffix g) (expr i, p) =
+    g[i].tex := p;
+enddef;
+
 def set_arr_scale(suffix g) (expr bs) =
     g.arr.scale := bs;
 enddef;
