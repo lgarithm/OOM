@@ -23,7 +23,7 @@ def draw_picture(expr p, o) =
     % draw bbox(p) shifted o;
 enddef;
 
-def draw_left_right(expr l, r) =
+def draw_left_right_with_gap(expr l, r, gap) =
     wl := arclength(llcorner bbox(l) -- lrcorner bbox(l));
     wr := arclength(llcorner bbox(r) -- lrcorner bbox(r));
 
@@ -31,8 +31,12 @@ def draw_left_right(expr l, r) =
     cl := center_to_origin(l);
     cr := center_to_origin(r);
 
-    w_mean := (wl + wr) * 0.5 + 20mm;
+    w_mean := (wl + wr) * 0.5 + gap;
 
     draw_picture(cl, left * w_mean * .5);
     draw_picture(cr, right * w_mean * .5);
+enddef;
+
+def draw_left_right(expr l, r) =
+    draw_left_right_with_gap(l, r, 20mm);
 enddef;
