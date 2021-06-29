@@ -109,6 +109,10 @@ def set_arr_scale(suffix g) (expr bs) =
     g.arr.scale := bs;
 enddef;
 
+def set_bbox(suffix g) (expr i, b) =
+    g[i].bbox := b;
+enddef;
+
 def set_bbox_scale(suffix g) (expr bs) =
     g.bbox.scale := bs;
 enddef;
