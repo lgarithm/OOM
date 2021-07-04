@@ -182,8 +182,8 @@ enddef;
 
 def draw_diagram_edges(suffix g) =
     for i := 1 upto g.m:
-        if g[i].hide_edge:
-        %
+        if g[i].hide_edge or g[g[i].u].hide_node or g[g[i].v].hide_node:
+            %
         else:
             draw_diagram_edge(g, g[i]u, g[i]v, g[i]d);
         fi;
