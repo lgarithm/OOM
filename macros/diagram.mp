@@ -17,12 +17,14 @@ def def_diagram(suffix g) =
     picture g[].tex;
     string g[].name;
     path g[].bbox;
+    boolean g[].hide_node;
 
     numeric g.m;
     g.m = 0;
     numeric g[]u, g[]v;
     numeric g[]s;  % the style
     boolean g[]d;  % is directed, default to true
+    boolean g[].hide_edge;
 enddef;
 
 def new_node(suffix g) =
@@ -31,6 +33,7 @@ def new_node(suffix g) =
     g[idx].tex := btex etex;
     g[idx].pos := g.pos;
     %g[idx].bbox := fullcircle;
+    g[idx].hide_node := false;
     idx
     endgroup;
 enddef;
@@ -68,6 +71,7 @@ def add_edge(suffix g) (expr i, j) =
     g[idx]v = j;
     g[idx]s = 0;
     g[idx]d = true;
+    g[idx].hide_edge = false;
     % idx
     endgroup;
 enddef;
@@ -125,6 +129,10 @@ def set_node_size(suffix g) (expr ns) =
     g.node.size := ns;
 enddef;
 
+def set_hide_node(suffix g) (expr i) =
+    g[i].hide_node := true;
+enddef;
+
 % methods
 def draw_node(suffix g) (expr b, p, m) =
     pair pos;
@@ -160,7 +168,11 @@ enddef;
 
 def draw_diagram_nodes(suffix g) =
     for i := 1 upto g.n:
-        draw_diagram_node(g, i);
+        if g[i].hide_node:
+            %
+        else:
+            draw_diagram_node(g, i);
+        fi;
     endfor;
 enddef;
 
@@ -170,7 +182,11 @@ enddef;
 
 def draw_diagram_edges(suffix g) =
     for i := 1 upto g.m:
-        draw_diagram_edge(g, g[i]u, g[i]v, g[i]d);
+        if g[i].hide_edge:
+        %
+        else:
+            draw_diagram_edge(g, g[i]u, g[i]v, g[i]d);
+        fi;
     endfor;
 enddef;
 
