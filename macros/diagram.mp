@@ -153,12 +153,30 @@ def draw_edge_with(suffix g) (expr p, pbbox, q, qbbox) (expr d) =
     pair stop;
     start := ((p -- q) scaled g.grid.size) intersectionpoint (pbbox scaled g.node.size shifted (p scaled g.grid.size));
     stop := ((q -- p) scaled g.grid.size) intersectionpoint (qbbox scaled g.node.size shifted (q scaled g.grid.size));
+
+    path arr;
+    arr := start -- stop;
+
     if d:
-        drawarrow (start -- stop)
-            withpen pencircle scaled g.arr.scale;
+        drawarrow arr withpen pencircle scaled g.arr.scale;
     else:
-        draw (start -- stop)
-            withpen pencircle scaled g.arr.scale;
+        draw arr withpen pencircle scaled g.arr.scale;
+    fi;
+enddef;
+
+def draw_edge_with_via(suffix g) (expr p, pbbox, q, qbbox) (expr d, m) =
+    pair start;
+    pair stop;
+    start := ((p .. m .. q) scaled g.grid.size) intersectionpoint (pbbox scaled g.node.size shifted (p scaled g.grid.size));
+    stop := ((q .. m .. p) scaled g.grid.size) intersectionpoint (qbbox scaled g.node.size shifted (q scaled g.grid.size));
+
+    path arr;
+    arr := start .. (m scaled g.grid.size) .. stop;
+
+    if d:
+        drawarrow arr withpen pencircle scaled g.arr.scale;
+    else:
+        draw arr withpen pencircle scaled g.arr.scale;
     fi;
 enddef;
 
@@ -178,6 +196,11 @@ enddef;
 
 def draw_diagram_edge(suffix g) (expr i, j) (expr d) =
     draw_edge_with(g, g[i].pos, g[i].bbox, g[j].pos, g[j].bbox, d);
+enddef;
+
+% draw curved edge controlled by position m
+def draw_diagram_edge_via(suffix g) (expr i, j) (expr d, m) =
+    draw_edge_with_via(g, g[i].pos, g[i].bbox, g[j].pos, g[j].bbox, d, m);
 enddef;
 
 def draw_diagram_edges(suffix g) =
