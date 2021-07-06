@@ -229,3 +229,13 @@ def draw_diagram(suffix g) =
     draw_diagram_nodes(g);
     draw_diagram_edges(g);
 enddef;
+
+def def_group_box(suffix g) (expr x_grids, y_grids) (expr margin) =
+    begingroup
+        numeric ratio;
+        ratio := g.grid.size / g.node.size;
+        ubox
+        xscaled (1 + (x_grids + margin) * ratio)
+        yscaled (1 + (y_grids + margin) * ratio)
+    endgroup
+enddef;
