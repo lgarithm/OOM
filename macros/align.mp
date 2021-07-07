@@ -37,19 +37,19 @@ def draw_left_right_with_gap(expr l, r, gap) =
     draw_picture(cr, right * w_mean * .5);
 enddef;
 
-% def draw_top_down_with_gap(expr l, r, gap) =
-%     wl := arclength(llcorner bbox(l) -- lrcorner bbox(l));
-%     wr := arclength(llcorner bbox(r) -- lrcorner bbox(r));
+def draw_top_down_with_gap(expr t, d, gap) =
+    height_top := arclength(llcorner bbox(t) -- ulcorner bbox(t));
+    height_down := arclength(llcorner bbox(d) -- ulcorner bbox(d));
 
-%     picture cl, cr;
-%     cl := center_to_origin(l);
-%     cr := center_to_origin(r);
+    picture ct, cd;
+    ct := center_to_origin(t);
+    cd := center_to_origin(d);
 
-%     w_mean := (wl + wr) * 0.5 + gap;
+    h_mean := (height_top + height_down) * 0.5 + gap;
 
-%     draw_picture(cl, left * w_mean * .5);
-%     draw_picture(cr, right * w_mean * .5);
-% enddef;
+    draw_picture(ct, up * h_mean * .5);
+    draw_picture(cd, down * h_mean * .5);
+enddef;
 
 def draw_left_right(expr l, r) =
     draw_left_right_with_gap(l, r, 20mm);
