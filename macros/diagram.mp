@@ -96,7 +96,7 @@ def get_abs_pos(suffix g) (expr i) =
     g[i].pos scaled g.grid.size
 enddef;
 
-def get_bbox(suffix g) (expr i) =
+def get_abs_bbox(suffix g) (expr i) =
     g[i].bbox scaled g.node.size shifted (g[i].pos * g.grid.size)
 enddef;
 
