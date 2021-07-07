@@ -64,7 +64,7 @@ def new_op_node(suffix g) =
     new_node_with(g, fullcircle)
 enddef;
 
-def add_edge(suffix g) (expr i, j) =
+def add_edge_(suffix g) (expr i, j) =
     begingroup
     idx := incr(g.m);
     g[idx]u = i;
@@ -72,8 +72,12 @@ def add_edge(suffix g) (expr i, j) =
     g[idx]s = 0;
     g[idx]d = true;
     g[idx].hide_edge = false;
-    % idx
+    idx
     endgroup;
+enddef;
+
+def add_edge(suffix g) (expr i, j) =
+    idx := add_edge_(g, i, j);
 enddef;
 
 def add_undirected_edge(suffix g) (expr i, j) =
@@ -98,6 +102,24 @@ enddef;
 
 def get_abs_bbox(suffix g) (expr i) =
     g[i].bbox scaled g.node.size shifted (g[i].pos * g.grid.size)
+enddef;
+
+def get_edge_pen(suffix g) =
+    pencircle scaled g.arr.scale
+enddef;
+
+def get_abs_edge_with(suffix g) (expr p, pbbox, q, qbbox) =
+    begingroup
+    pair start;
+    pair stop;
+    start := ((p -- q) scaled g.grid.size) intersectionpoint (pbbox scaled g.node.size shifted (p scaled g.grid.size));
+    stop := ((q -- p) scaled g.grid.size) intersectionpoint (qbbox scaled g.node.size shifted (q scaled g.grid.size));
+    start -- stop
+    endgroup
+enddef;
+
+def get_abs_edge(suffix g) (expr i, j) =
+    get_abs_edge_with(g, g[i].pos, g[i].bbox, g[j].pos, g[j].bbox)
 enddef;
 
 % setters
@@ -141,6 +163,10 @@ def set_hide_node(suffix g) (expr i) =
     g[i].hide_node := true;
 enddef;
 
+def set_hide_edge(suffix g) (expr j) =
+    g[j].hide_edge := true;
+enddef;
+
 % methods
 def draw_node(suffix g) (expr b, p, m) =
     pair pos;
@@ -156,20 +182,16 @@ def diag_node_bbox(suffix g) (expr i) =
     endgroup
 enddef;
 
-def draw_edge_with(suffix g) (expr p, pbbox, q, qbbox) (expr d) =
-    pair start;
-    pair stop;
-    start := ((p -- q) scaled g.grid.size) intersectionpoint (pbbox scaled g.node.size shifted (p scaled g.grid.size));
-    stop := ((q -- p) scaled g.grid.size) intersectionpoint (qbbox scaled g.node.size shifted (q scaled g.grid.size));
-
-    path arr;
-    arr := start -- stop;
-
+def draw_path(suffix g) (expr arr) (expr d) =
     if d:
-        drawarrow arr withpen pencircle scaled g.arr.scale;
+        drawarrow arr withpen get_edge_pen(g);
     else:
-        draw arr withpen pencircle scaled g.arr.scale;
+        draw arr withpen get_edge_pen(g);
     fi;
+enddef;
+
+def draw_edge_with(suffix g) (expr p, pbbox, q, qbbox) (expr d) =
+    draw_path(g, get_abs_edge_with(g, p, pbbox, q, qbbox), d);
 enddef;
 
 def draw_edge_with_via(suffix g) (expr p, pbbox, q, qbbox) (expr d, m) =
@@ -178,14 +200,7 @@ def draw_edge_with_via(suffix g) (expr p, pbbox, q, qbbox) (expr d, m) =
     start := ((p .. m .. q) scaled g.grid.size) intersectionpoint (pbbox scaled g.node.size shifted (p scaled g.grid.size));
     stop := ((q .. m .. p) scaled g.grid.size) intersectionpoint (qbbox scaled g.node.size shifted (q scaled g.grid.size));
 
-    path arr;
-    arr := start .. (m scaled g.grid.size) .. stop;
-
-    if d:
-        drawarrow arr withpen pencircle scaled g.arr.scale;
-    else:
-        draw arr withpen pencircle scaled g.arr.scale;
-    fi;
+    draw_path(g, start .. (m scaled g.grid.size) .. stop, d);
 enddef;
 
 def draw_diagram_node(suffix g) (expr i) =
