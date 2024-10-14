@@ -7,7 +7,7 @@ verbatimtex
 \begin{document}
 etex
 
-outputtemplate := "%j-%c.mps";
+outputtemplate := "%j-%c.%o";
 
 boolean oom.debug;
 oom.debug := false;
