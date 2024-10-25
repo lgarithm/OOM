@@ -108,7 +108,12 @@ def get_edge_pen(suffix g) =
     pencircle scaled g.arr.scale
 enddef;
 
+def cut_path(expr r, p, pbbox, q, qbbox) =
+    r cutbefore (pbbox shifted p) cutafter (qbbox shifted q)
+enddef;
+
 def get_abs_edge_with(suffix g) (expr p, pbbox, q, qbbox) =
+    % TODO: use cut_path
     begingroup
     pair start;
     pair stop;
